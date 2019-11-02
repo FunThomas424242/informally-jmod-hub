@@ -75,6 +75,48 @@
 
     </target>
 
+
+    <!-- BEGIN OF DANGER PARTs -->
+    <target name="org.slf4j" depends="jdeps.clean">
+        <property name="group.id" value="org/slf4j"/>
+        <property name="artifact.id" value="slf4j-api"/>
+        <property name="module.id" value="org.slf4j"/>
+        <property name="version" value="1.7.29"/>
+        <property name="m2.path" value="${user.home}/.m2/repository/"/>
+
+        <!-- Erzeugung mit jdeps aktuell nicht möglich, daher manuell module-info.java geschrieben -->
+
+        <echo file="./jdeps/${module.id}/module-info.java">
+            module org.slf4j {
+            exports org.slf4j.impl;
+            exports org.slf4j.event;
+            exports org.slf4j.helpers;
+            exports org.slf4j.spi;
+            }
+        </echo>
+
+
+        <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
+        <echo>##### Es folgt der Inhalt von module-info.java #####
+            ${module-info.contents}
+        </echo>
+
+        <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+               dest="./jdeps/${module.id}/classes">
+        </unzip>
+        <unzip src="${user.home}/.m2/repository/${group.id}/slf4j-jdk14/1.5.6/slf4j-jdk14-1.5.6.jar"
+               dest="./jdeps/${module.id}/classes">
+        </unzip>
+
+        <javac includeantruntime="false" srcdir="./jdeps/${module.id}" destdir="./jdeps/${module.id}/classes"/>
+
+        <delete file="./jmods/${module.id}-${version}.jmod"/>
+
+        <jmod classpath="./jdeps/${module.id}/classes" destfile="./jmods/${module.id}-${version}.jmod"/>
+
+    </target>
+
+
     <target name="avalon.framework" depends="jdeps.clean">
         <property name="group.id" value="avalon-framework"/>
         <property name="artifact.id" value="avalon-framework"/>
@@ -150,6 +192,44 @@
         <jmod classpath="./jdeps/${module.id}/classes" destfile="./jmods/${module.id}-${version}.jmod"/>
 
     </target>
+
+
+    <target name="slf4j-api" depends="jdeps.clean">
+        <property name="group.id" value="org/slf4j"/>
+        <property name="artifact.id" value="slf4j-api"/>
+        <property name="module.id" value="slf4j-api"/>
+        <property name="version" value="1.7.29"/>
+        <property name="m2.path" value="${user.home}/.m2/repository/"/>
+
+        <exec executable="${jdeps}">
+            <arg value="--generate-open-module"/>
+            <arg value="./jdeps"/>
+            <arg value="${m2.path}/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+        </exec>
+
+        <exec executable="${jdeps}">
+            <arg value="--generate-module-info"/>
+            <arg value="./jdeps"/>
+            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+        </exec>
+
+        <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
+        <echo>##### Es folgt der Inhalt von module-info.java #####
+            ${module-info.contents}
+        </echo>
+
+        <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+               dest="./jdeps/${module.id}/classes">
+        </unzip>
+
+        <javac includeantruntime="false" srcdir="./jdeps/${module.id}" destdir="./jdeps/${module.id}/classes"/>
+
+        <delete file="./jmods/${module.id}-${version}.jmod"/>
+
+        <jmod classpath="./jdeps/${module.id}/classes" destfile="./jmods/${module.id}-${version}.jmod"/>
+
+    </target>
+
 
 
 
