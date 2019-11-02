@@ -1,87 +1,156 @@
-
 <project basedir="." default="main">
-  <property environment="env"/>
-  <property name="jdeps" value="${env.JAVA_HOME}/bin/jdeps"/>
+    <property environment="env"/>
+    <property name="jdeps" value="${env.JAVA_HOME}/bin/jdeps"/>
 
-  <target name="jdeps.clean">
-    <delete dir="jdeps"/>
-  </target>
+    <target name="main" depends="org.json,org.apache.commons.codec"/>
+    <target name="jdeps.clean">
+        <delete dir="jdeps"/>
+    </target>
+    <target name="org.json" depends="jdeps.clean">
+        <property name="group.id" value="org/json"/>
+        <property name="artifact.id" value="json"/>
+        <property name="module.id" value="org.json"/>
+        <property name="version" value="20190722"/>
+
+        <exec executable="${jdeps}">
+            <arg value="--generate-open-module"/>
+            <arg value="./jdeps"/>
+            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+        </exec>
+
+        <exec executable="${jdeps}">
+            <arg value="--generate-module-info"/>
+            <arg value="./jdeps"/>
+            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+        </exec>
+
+        <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
+        <echo>##### Es folgt der Inhalt von module-info.java #####
+            ${module-info.contents}
+        </echo>
+
+        <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+               dest="./jdeps/${module.id}/classes">
+        </unzip>
+
+        <javac includeantruntime="false" srcdir="./jdeps/${module.id}" destdir="./jdeps/${module.id}/classes"/>
+
+        <delete file="./jmods/${module.id}-${version}.jmod"/>
+
+        <jmod classpath="./jdeps/${module.id}/classes" destfile="./jmods/${module.id}-${version}.jmod"/>
+
+    </target>
+    <target name="org.apache.commons.codec" depends="jdeps.clean">
+        <property name="group.id" value="commons-codec"/>
+        <property name="artifact.id" value="commons-codec"/>
+        <property name="module.id" value="org.apache.commons.codec"/>
+        <property name="version" value="1.11"/>
+
+        <exec executable="${jdeps}">
+            <arg value="--generate-open-module"/>
+            <arg value="./jdeps"/>
+            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+        </exec>
+
+        <exec executable="${jdeps}">
+            <arg value="--generate-module-info"/>
+            <arg value="./jdeps"/>
+            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+        </exec>
+
+        <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
+        <echo>##### Es folgt der Inhalt von module-info.java #####
+            ${module-info.contents}
+        </echo>
+
+        <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+               dest="./jdeps/${module.id}/classes">
+        </unzip>
+
+        <javac includeantruntime="false" srcdir="./jdeps/${module.id}" destdir="./jdeps/${module.id}/classes"/>
+
+        <delete file="./jmods/${module.id}-${version}.jmod"/>
+
+        <jmod classpath="./jdeps/${module.id}/classes" destfile="./jmods/${module.id}-${version}.jmod"/>
+
+    </target>
+
+    <target name="avalon.framework" depends="jdeps.clean">
+        <property name="group.id" value="avalon-framework"/>
+        <property name="artifact.id" value="avalon-framework"/>
+        <property name="module.id" value="org.apache.avalon.framework"/>
+        <property name="version" value="4.1.3"/>
+
+        <exec executable="${jdeps}">
+            <arg value="--generate-open-module"/>
+            <arg value="./jdeps"/>
+            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+        </exec>
+
+        <exec executable="${jdeps}">
+            <arg value="--generate-module-info"/>
+            <arg value="./jdeps"/>
+            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+        </exec>
+
+        <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
+        <echo>##### Es folgt der Inhalt von module-info.java #####
+            ${module-info.contents}
+        </echo>
+
+        <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+               dest="./jdeps/${module.id}/classes">
+        </unzip>
+
+        <javac includeantruntime="false" srcdir="./jdeps/${module.id}" destdir="./jdeps/${module.id}/classes"/>
+
+        <delete file="./jmods/${module.id}-${version}.jmod"/>
+
+        <jmod classpath="./jdeps/${module.id}/classes" destfile="./jmods/${module.id}-${version}.jmod"/>
+
+    </target>
+
+    <target name="commons-logging" depends="jdeps.clean">
+        <property name="group.id" value="commons-logging"/>
+        <property name="artifact.id" value="commons-logging"/>
+        <property name="module.id" value="commons.logging"/>
+        <property name="version" value="1.2"/>
+        <property name="m2.path" value="${user.home}/.m2/repository/"/>
 
 
-  <target name="org.json" depends="jdeps.clean">
-    <property name="group.id" value="org/json"/>
-    <property name="artifact.id" value="json"/>
-    <property name="module.id" value="org.json"/>
-    <property name="version" value="20190722"/>
+        <exec executable="${jdeps}">
+            <arg value="-cp"/>
+            <arg value="${m2.path}/org/apache/logging/log4j/log4j-core/2.12.1/log4j-core-2.12.1.jar"/>
+            <arg value="--generate-open-module"/>
+            <arg value="./jdeps"/>
+            <arg value="${m2.path}/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+        </exec>
 
-    <exec executable="${jdeps}">
-      <arg value="--generate-open-module"/>
-      <arg value="./jdeps"/>
-      <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
-    </exec>
+        <exec executable="${jdeps}">
+            <arg value="-cp"/>
+            <arg value="${m2.path}/org/apache/logging/log4j/log4j-core/2.12.1/log4j-core-2.12.1.jar"/>
+            <arg value="--generate-module-info"/>
+            <arg value="./jdeps"/>
+            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+        </exec>
 
-    <exec executable="${jdeps}">
-      <arg value="--generate-module-info"/>
-      <arg value="./jdeps"/>
-      <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
-    </exec>
+        <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
+        <echo>##### Es folgt der Inhalt von module-info.java #####
+            ${module-info.contents}
+        </echo>
 
-    <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java" />
-    <echo>##### Es folgt der Inhalt von module-info.java #####
-${module-info.contents}
-    </echo>
-    
-    <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
-	   dest="./jdeps/${module.id}/classes">
-    </unzip>
+        <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+               dest="./jdeps/${module.id}/classes">
+        </unzip>
 
-    <javac includeantruntime="false" srcdir="./jdeps/${module.id}" destdir="./jdeps/${module.id}/classes"/>
+        <javac includeantruntime="false" srcdir="./jdeps/${module.id}" destdir="./jdeps/${module.id}/classes"/>
 
-    <delete file="./jmods/${module.id}-${version}.jmod" />
-    
-    <jmod classpath="./jdeps/${module.id}/classes" destfile="./jmods/${module.id}-${version}.jmod"/>
+        <delete file="./jmods/${module.id}-${version}.jmod"/>
 
-  </target>
+        <jmod classpath="./jdeps/${module.id}/classes" destfile="./jmods/${module.id}-${version}.jmod"/>
+
+    </target>
 
 
-   <target name="org.apache.commons.codec" depends="jdeps.clean">
-    <property name="group.id" value="commons-codec"/>
-    <property name="artifact.id" value="commons-codec"/>
-    <property name="module.id" value="org.apache.commons.codec"/>
-    <property name="version" value="1.11"/>
 
-    <exec executable="${jdeps}">
-      <arg value="--generate-open-module"/>
-      <arg value="./jdeps"/>
-      <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
-    </exec>
-
-    <exec executable="${jdeps}">
-      <arg value="--generate-module-info"/>
-      <arg value="./jdeps"/>
-      <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
-    </exec>
-
-    <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java" />
-    <echo>##### Es folgt der Inhalt von module-info.java #####
-${module-info.contents}
-    </echo>
-    
-    <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
-	   dest="./jdeps/${module.id}/classes">
-    </unzip>
-
-    <javac includeantruntime="false" srcdir="./jdeps/${module.id}" destdir="./jdeps/${module.id}/classes"/>
-
-    <delete file="./jmods/${module.id}-${version}.jmod" />
-    
-    <jmod classpath="./jdeps/${module.id}/classes" destfile="./jmods/${module.id}-${version}.jmod"/>
-
-  </target>
-  
-
-  <target name="main" depends="org.json,org.apache.commons.codec">
-
-  </target>
-    
 </project>
