@@ -1,0 +1,51 @@
+
+<project basedir="." default="main">
+  <property environment="env"/>
+  <property name="jdeps" value="${env.JAVA_HOME}/bin/jdeps"/>
+
+  <target name="jdeps.clean">
+    <delete dir="jdeps"/>
+  </target>
+
+
+  <target name="org.json" depends="jdeps.clean">
+    <property name="group.id" value="org/json"/>
+    <property name="artifact.id" value="json"/>
+    <property name="module.id" value="org.json"/>
+    <property name="version" value="20190722"/>
+
+    <exec executable="${jdeps}">
+      <arg value="--generate-open-module"/>
+      <arg value="./jdeps"/>
+      <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+    </exec>
+
+    <exec executable="${jdeps}">
+      <arg value="--generate-module-info"/>
+      <arg value="./jdeps"/>
+      <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+    </exec>
+
+    <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java" />
+    <echo>##### Es folgt der Inhalt von module-info.java #####
+${module-info.contents}
+    </echo>
+    
+    <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+	   dest="./jdeps/${module.id}/classes">
+    </unzip>
+
+    <javac includeantruntime="false" srcdir="./jdeps/${module.id}" destdir="./jdeps/${module.id}/classes"/>
+
+    <delete file="./${module.id}-${version}.jmod" />
+    
+    <jmod classpath="./jdeps/${module.id}/classes" destfile="./${module.id}-${version}.jmod"/>
+
+  </target>
+  
+
+  <target name="main" depends="org.json">
+
+  </target>
+    
+</project>
