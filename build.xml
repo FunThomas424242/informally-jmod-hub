@@ -37,9 +37,9 @@ ${module-info.contents}
 
     <javac includeantruntime="false" srcdir="./jdeps/${module.id}" destdir="./jdeps/${module.id}/classes"/>
 
-    <delete file="./${module.id}-${version}.jmod" />
+    <delete file="./jmods/${module.id}-${version}.jmod" />
     
-    <jmod classpath="./jdeps/${module.id}/classes" destfile="./${module.id}-${version}.jmod"/>
+    <jmod classpath="./jdeps/${module.id}/classes" destfile="./jmods/${module.id}-${version}.jmod"/>
 
   </target>
 
@@ -73,9 +73,9 @@ ${module-info.contents}
 
     <javac includeantruntime="false" srcdir="./jdeps/${module.id}" destdir="./jdeps/${module.id}/classes"/>
 
-    <delete file="./${module.id}-${version}.jmod" />
+    <delete file="./jmods/${module.id}-${version}.jmod" />
     
-    <jmod classpath="./jdeps/${module.id}/classes" destfile="./${module.id}-${version}.jmod"/>
+    <jmod classpath="./jdeps/${module.id}/classes" destfile="./jmods/${module.id}-${version}.jmod"/>
 
   </target>
   
