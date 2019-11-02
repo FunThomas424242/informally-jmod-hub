@@ -1,5 +1,10 @@
-# jmod-hub
-Ablage ausgewählter Java Module und der Skripte um sie zu Erstellen.
+# ! ! ! D A N G E R - T H I S is NOT an O F F I C I A L  R E P O ! ! !
+
+**Only to use if you know what you are doing !!!**
+
+Check the build scripts "build.xml" for correct deps before usage !!!
+
+## There are jmod s based on manually written module-info.java files.  
 
 ```shell
 # Herstellung der jmod Dateien für auto module
