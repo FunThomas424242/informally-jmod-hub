@@ -42,9 +42,45 @@ ${module-info.contents}
     <jmod classpath="./jdeps/${module.id}/classes" destfile="./${module.id}-${version}.jmod"/>
 
   </target>
+
+
+   <target name="org.apache.commons.codec" depends="jdeps.clean">
+    <property name="group.id" value="commons-codec"/>
+    <property name="artifact.id" value="commons-codec"/>
+    <property name="module.id" value="org.apache.commons.codec"/>
+    <property name="version" value="1.11"/>
+
+    <exec executable="${jdeps}">
+      <arg value="--generate-open-module"/>
+      <arg value="./jdeps"/>
+      <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+    </exec>
+
+    <exec executable="${jdeps}">
+      <arg value="--generate-module-info"/>
+      <arg value="./jdeps"/>
+      <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+    </exec>
+
+    <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java" />
+    <echo>##### Es folgt der Inhalt von module-info.java #####
+${module-info.contents}
+    </echo>
+    
+    <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+	   dest="./jdeps/${module.id}/classes">
+    </unzip>
+
+    <javac includeantruntime="false" srcdir="./jdeps/${module.id}" destdir="./jdeps/${module.id}/classes"/>
+
+    <delete file="./${module.id}-${version}.jmod" />
+    
+    <jmod classpath="./jdeps/${module.id}/classes" destfile="./${module.id}-${version}.jmod"/>
+
+  </target>
   
 
-  <target name="main" depends="org.json">
+  <target name="main" depends="org.json,org.apache.commons.codec">
 
   </target>
     
