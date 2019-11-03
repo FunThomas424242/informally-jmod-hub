@@ -1,13 +1,27 @@
-<project basedir="." default="main">
+<project basedir="." default="main" xmlns:ac="antlib:net.sf.antcontrib">
+
+    <taskdef uri="antlib:net.sf.antcontrib"
+             resource="net/sf/antcontrib/antlib.xml"
+             classpath="${user.home}/.m2/repository/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"/>
+
+    <antversion property="antversion" atleast="1.10"/>
+    <echo message="ANT Version: ${antversion}"/>
+    <fail message="Ant Version >= 1.10 erforderlich" unless="antversion"/>
+
     <property environment="env"/>
     <property name="jdeps" value="${env.JAVA_HOME}/bin/jdeps"/>
 
-    <target name="main" depends="org.json,org.apache.commons.codec"/>
+
+
+
+    <target name="main"
+            depends="org.json, org.apache.commons.codec, org.slf4j"
+    />
     <target name="jdeps.clean">
         <delete dir="jdeps"/>
     </target>
     <target name="org.json" depends="jdeps.clean">
-        <property name="group.id" value="org/json"/>
+        <property name="org.json.group.id" value="org/json"/>
         <property name="artifact.id" value="json"/>
         <property name="module.id" value="org.json"/>
         <property name="version" value="20190722"/>
@@ -15,13 +29,13 @@
         <exec executable="${jdeps}">
             <arg value="--generate-open-module"/>
             <arg value="./jdeps"/>
-            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+            <arg value="${user.home}/.m2/repository/${org.json.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
         <exec executable="${jdeps}">
             <arg value="--generate-module-info"/>
             <arg value="./jdeps"/>
-            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+            <arg value="${user.home}/.m2/repository/${org.json.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
         <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
@@ -29,7 +43,7 @@
             ${module-info.contents}
         </echo>
 
-        <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+        <unzip src="${user.home}/.m2/repository/${org.json.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
                dest="./jdeps/${module.id}/classes">
         </unzip>
 
@@ -37,25 +51,27 @@
 
         <delete file="./jmods/${module.id}-${version}.jmod"/>
 
-        <jmod classpath="./jdeps/${module.id}/classes" destfile="./jmods/${module.id}-${version}.jmod"/>
+        <jmod classpath="./jdeps/${module.id}/classes"
+              destfile="./jmods/${module.id}-${version}.jmod"
+        />
 
     </target>
     <target name="org.apache.commons.codec" depends="jdeps.clean">
-        <property name="group.id" value="commons-codec"/>
-        <property name="artifact.id" value="commons-codec"/>
-        <property name="module.id" value="org.apache.commons.codec"/>
-        <property name="version" value="1.11"/>
+        <ac:var name="codec.group.id" value="commons-codec"/>
+        <ac:var name="artifact.id" value="commons-codec"/>
+        <ac:var name="module.id" value="org.apache.commons.codec"/>
+        <ac:var name="version" value="1.11"/>
 
         <exec executable="${jdeps}">
             <arg value="--generate-open-module"/>
             <arg value="./jdeps"/>
-            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+            <arg value="${user.home}/.m2/repository/${codec.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
         <exec executable="${jdeps}">
             <arg value="--generate-module-info"/>
             <arg value="./jdeps"/>
-            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+            <arg value="${user.home}/.m2/repository/${codec.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
         <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
@@ -63,7 +79,7 @@
             ${module-info.contents}
         </echo>
 
-        <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+        <unzip src="${user.home}/.m2/repository/${codec.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
                dest="./jdeps/${module.id}/classes">
         </unzip>
 
@@ -78,11 +94,11 @@
 
     <!-- BEGIN OF DANGER PARTs -->
     <target name="org.slf4j" depends="jdeps.clean">
-        <property name="group.id" value="org/slf4j"/>
-        <property name="artifact.id" value="slf4j-api"/>
-        <property name="module.id" value="org.slf4j"/>
-        <property name="version" value="1.7.29"/>
-        <property name="m2.path" value="${user.home}/.m2/repository/"/>
+        <ac:var name="slf4j.group.id" value="org/slf4j"/>
+        <ac:var name="artifact.id" value="slf4j-api"/>
+        <ac:var name="module.id" value="org.slf4j"/>
+        <ac:var name="version" value="1.7.29"/>
+        <ac:var name="m2.path" value="${user.home}/.m2/repository/"/>
 
         <!-- Erzeugung mit jdeps aktuell nicht möglich, daher manuell module-info.java geschrieben -->
 
@@ -101,10 +117,10 @@
             ${module-info.contents}
         </echo>
 
-        <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+        <unzip src="${user.home}/.m2/repository/${slf4j.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
                dest="./jdeps/${module.id}/classes">
         </unzip>
-        <unzip src="${user.home}/.m2/repository/${group.id}/slf4j-jdk14/1.5.6/slf4j-jdk14-1.5.6.jar"
+        <unzip src="${user.home}/.m2/repository/${slf4j.group.id}/slf4j-jdk14/1.5.6/slf4j-jdk14-1.5.6.jar"
                dest="./jdeps/${module.id}/classes">
         </unzip>
 
@@ -118,21 +134,21 @@
 
 
     <target name="avalon.framework" depends="jdeps.clean">
-        <property name="group.id" value="avalon-framework"/>
-        <property name="artifact.id" value="avalon-framework"/>
-        <property name="module.id" value="org.apache.avalon.framework"/>
-        <property name="version" value="4.1.3"/>
+        <ac:var name="avalon.group.id" value="avalon-framework"/>
+        <ac:var name="artifact.id" value="avalon-framework"/>
+        <ac:var name="module.id" value="org.apache.avalon.framework"/>
+        <ac:var name="version" value="4.1.3"/>
 
         <exec executable="${jdeps}">
             <arg value="--generate-open-module"/>
             <arg value="./jdeps"/>
-            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+            <arg value="${user.home}/.m2/repository/${avalon.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
         <exec executable="${jdeps}">
             <arg value="--generate-module-info"/>
             <arg value="./jdeps"/>
-            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+            <arg value="${user.home}/.m2/repository/${avalon.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
         <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
@@ -140,7 +156,7 @@
             ${module-info.contents}
         </echo>
 
-        <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+        <unzip src="${user.home}/.m2/repository/${avalon.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
                dest="./jdeps/${module.id}/classes">
         </unzip>
 
@@ -153,11 +169,11 @@
     </target>
 
     <target name="commons-logging" depends="jdeps.clean">
-        <property name="group.id" value="commons-logging"/>
-        <property name="artifact.id" value="commons-logging"/>
-        <property name="module.id" value="commons.logging"/>
-        <property name="version" value="1.2"/>
-        <property name="m2.path" value="${user.home}/.m2/repository/"/>
+        <ac:var name="logging.group.id" value="commons-logging"/>
+        <ac:var name="artifact.id" value="commons-logging"/>
+        <ac:var name="module.id" value="commons.logging"/>
+        <ac:var name="version" value="1.2"/>
+        <ac:var name="m2.path" value="${user.home}/.m2/repository/"/>
 
 
         <exec executable="${jdeps}">
@@ -165,7 +181,7 @@
             <arg value="${m2.path}/org/apache/logging/log4j/log4j-core/2.12.1/log4j-core-2.12.1.jar"/>
             <arg value="--generate-open-module"/>
             <arg value="./jdeps"/>
-            <arg value="${m2.path}/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+            <arg value="${m2.path}/${logging.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
         <exec executable="${jdeps}">
@@ -173,7 +189,7 @@
             <arg value="${m2.path}/org/apache/logging/log4j/log4j-core/2.12.1/log4j-core-2.12.1.jar"/>
             <arg value="--generate-module-info"/>
             <arg value="./jdeps"/>
-            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+            <arg value="${user.home}/.m2/repository/${logging.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
         <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
@@ -181,7 +197,7 @@
             ${module-info.contents}
         </echo>
 
-        <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+        <unzip src="${user.home}/.m2/repository/${logging.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
                dest="./jdeps/${module.id}/classes">
         </unzip>
 
@@ -195,22 +211,22 @@
 
 
     <target name="slf4j-api" depends="jdeps.clean">
-        <property name="group.id" value="org/slf4j"/>
-        <property name="artifact.id" value="slf4j-api"/>
-        <property name="module.id" value="slf4j-api"/>
-        <property name="version" value="1.7.29"/>
-        <property name="m2.path" value="${user.home}/.m2/repository/"/>
+        <ac:var name="slf4j-api.group.id" value="org/slf4j"/>
+        <ac:var name="artifact.id" value="slf4j-api"/>
+        <ac:var name="module.id" value="slf4j-api"/>
+        <ac:var name="version" value="1.7.29"/>
+        <ac:var name="m2.path" value="${user.home}/.m2/repository/"/>
 
         <exec executable="${jdeps}">
             <arg value="--generate-open-module"/>
             <arg value="./jdeps"/>
-            <arg value="${m2.path}/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+            <arg value="${m2.path}/${slf4j-api.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
         <exec executable="${jdeps}">
             <arg value="--generate-module-info"/>
             <arg value="./jdeps"/>
-            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+            <arg value="${user.home}/.m2/repository/${slf4j-api.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
         <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
@@ -218,7 +234,7 @@
             ${module-info.contents}
         </echo>
 
-        <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+        <unzip src="${user.home}/.m2/repository/${slf4j-api.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
                dest="./jdeps/${module.id}/classes">
         </unzip>
 
@@ -229,8 +245,6 @@
         <jmod classpath="./jdeps/${module.id}/classes" destfile="./jmods/${module.id}-${version}.jmod"/>
 
     </target>
-
-
 
 
 </project>
