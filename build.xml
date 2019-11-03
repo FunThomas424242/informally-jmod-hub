@@ -38,9 +38,9 @@
             <arg value="${user.home}/.m2/repository/${org.json.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
-        <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
+        <loadfile property="org.json.context" srcFile="./jdeps/${module.id}/module-info.java"/>
         <echo>##### Es folgt der Inhalt von module-info.java #####
-            ${module-info.contents}
+            ${org.json.context}
         </echo>
 
         <unzip src="${user.home}/.m2/repository/${org.json.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
@@ -74,9 +74,9 @@
             <arg value="${user.home}/.m2/repository/${codec.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
-        <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
+        <loadfile property="apache.codec.context" srcFile="./jdeps/${module.id}/module-info.java"/>
         <echo>##### Es folgt der Inhalt von module-info.java #####
-            ${module-info.contents}
+            ${apache.codec.context}
         </echo>
 
         <unzip src="${user.home}/.m2/repository/${codec.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
@@ -192,9 +192,9 @@
             <arg value="${user.home}/.m2/repository/${logging.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
-        <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
+        <loadfile property="avalon.context" srcFile="./jdeps/${module.id}/module-info.java"/>
         <echo>##### Es folgt der Inhalt von module-info.java #####
-            ${module-info.contents}
+            ${avalon.context}
         </echo>
 
         <unzip src="${user.home}/.m2/repository/${logging.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
@@ -229,9 +229,9 @@
             <arg value="${user.home}/.m2/repository/${slf4j-api.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
-        <loadfile property="module-info.contents" srcFile="./jdeps/${module.id}/module-info.java"/>
+        <loadfile property="slf4j.context" srcFile="./jdeps/${module.id}/module-info.java"/>
         <echo>##### Es folgt der Inhalt von module-info.java #####
-            ${module-info.contents}
+            ${slf4j.context}
         </echo>
 
         <unzip src="${user.home}/.m2/repository/${slf4j-api.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
