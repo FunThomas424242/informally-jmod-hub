@@ -6,7 +6,7 @@
 
     <antversion property="antversion" atleast="1.10"/>
     <echo message="ANT Version: ${antversion}"/>
-    <fail message="Ant Version >= 1.10 erforderlich" unless="antversion"/>
+    <fail message="!!!! ANT VERSION >= 1.10 erforderlich !!!!" unless="antversion"/>
 
     <property environment="env"/>
     <property name="jdeps" value="${env.JAVA_HOME}/bin/jdeps"/>
