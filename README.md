@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/PIUGroup/informally-jmod-hub.svg?branch=master)](https://travis-ci.org/PIUGroup/informally-jmod-hub)
+
 # !!!! D A N G E R - THIS is NOT an OFFICIALLY  REPO !!!!
 
 **Only to use if you know what you are doing !!!**
