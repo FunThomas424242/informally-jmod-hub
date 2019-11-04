@@ -8,9 +8,9 @@
     <version>0.0.1-SNAPSHOT</version>
     <artifactId>jmod-hub</artifactId>
     <packaging>pom</packaging>
-    <name>jmod Hub</name>
+    <name>informally jmod hub</name>
     <inceptionYear>2019</inceptionYear>
-    <url>https://github.com/FunThomas424242/jmod-hub</url>
+    <url>https://github.com/PIUGroup/informally-jmod-hub</url>
     <licenses>
         <license>
             <url>https://www.gnu.org/licenses/lgpl-3.0.de.html</url>
@@ -21,17 +21,17 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:https://github.com/FunThomas424242/jmod-hub.git</connection>
-        <developerConnection>scm:git:git@github.com:FunThomas424242/jmod-hub.git</developerConnection>
-        <url>https://github.com/FunThomas424242/jmod-hub</url>
+        <connection>scm:git:https://github.com/PIUGroup/informally-jmod-hub.git</connection>
+        <developerConnection>scm:git:git@github.com:PIUGroup/informally-jmod-hub.git</developerConnection>
+        <url>https://github.com/PIUGroup/informally-jmod-hub</url>
     </scm>
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/FunThomas424242/jmod-hub/issues/new</url>
+        <url>https://github.com/PIUGroup/informally-jmod-hub/issues/new</url>
     </issueManagement>
     <ciManagement>
         <system>Travis</system>
-        <url>https://travis-ci.org/FunThomas424242/jmod-hub</url>
+        <url>https://travis-ci.org/PIUGroup/informally-jmod-hub</url>
     </ciManagement>
     <distributionManagement>
         <snapshotRepository>
@@ -60,39 +60,19 @@
     </prerequisites>
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>ant-contrib</groupId>-->
-<!--            <artifactId>ant-contrib</artifactId>-->
-<!--            <version>1.0b3</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.ant</groupId>-->
-<!--            <artifactId>ant</artifactId>-->
-<!--            <version>1.10.7</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.ant</groupId>-->
-<!--            <artifactId>ant-jsch</artifactId>-->
-<!--            <version>1.10.7</version>-->
-<!--        </dependency>-->
-
-
+        <!-- libs die zur Konvertierung im .m2 repo benötigt werden -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>2.12.1</version>
-            <!-- weil wir keine Lib sondern eine echte Enduser App sind -->
             <scope>compile</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
-            <!-- weil wir keine Lib sondern eine echte Enduser App sind -->
             <scope>compile</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
@@ -105,7 +85,6 @@
             <version>1.7.29</version>
             <scope>compile</scope>
         </dependency>
-        <!-- APIs von denen die Generate abhängen -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
@@ -118,14 +97,12 @@
             <version>3.1.10</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.10</version>
             <scope>compile</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.json/json -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -151,9 +128,6 @@
                         </goals>
                         <configuration>
                             <target>
-<!--                                <antversion property="antversion" atleast="1.10"/>-->
-<!--                                <echo message="ANT Version: ${antversion}"/>-->
-<!--                                <fail message="Ant Version >= 1.10 erforderlich" unless="antversion"/>-->
                                 <ant antfile="${basedir}/build.xml"/>
                             </target>
                         </configuration>
