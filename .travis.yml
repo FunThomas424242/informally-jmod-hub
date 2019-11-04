@@ -7,6 +7,6 @@ jdk:
 install_script: 
 
 script: 
-  - mvn clean validate
+  - ./mvnw clean validate
 
 
