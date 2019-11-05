@@ -14,8 +14,7 @@
     <target name="main"
             depends="org.json,
                      org.apache.commons.codec,
-                     org.apache.httpcomponents.httpcore,
-                     log4j.api"
+                     org.apache.httpcomponents.httpcore"
     />
 
     <target name="jdeps.clean">
@@ -135,22 +134,18 @@
 
     </target>
 
+    <!-- TODO ab hier -->
+
     <target name="log4j.api" depends="jdeps.clean">
         <ac:var name="group.id" value="org/apache/logging/log4j"/>
         <ac:var name="artifact.id" value="log4j-api"/>
-        <ac:var name="module.id" value="log4j.api"/>
-        <ac:var name="version" value="2.0-alpha2"/>
+        <ac:var name="module.id" value="org.apache.logging.log4j"/>
+        <ac:var name="version" value="2.12.1"/>
         <ac:var name="m2.path" value="${user.home}/.m2/repository/"/>
 
         <exec executable="${jdeps}">
-            <!-- deps ermittelt über
-                jdeps   ~/.m2/repository/org/apache/logging/log4j/log4j-api/2.0-alpha2/log4j-api-2.0-alpha2.jar|less
-
-               <arg value="- -module-path"/>
-               <arg value="./jmods"/>
-               <arg value="- -add-modules"/>
-               <arg value="java.base"/>
-             -->
+            <arg value="--multi-release" />
+            <arg value="9" />
             <arg value="--generate-module-info"/>
             <arg value="./jdeps"/>
             <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
@@ -177,9 +172,6 @@
               destfile="./jmods/${module.id}-${version}.jar"/>
 
     </target>
-
-
-    <!-- TODO ab hier -->
 
     <target name="slf4j.api" depends="jdeps.clean,org.apache.httpcomponents.httpcore,log4j.api">
         <!--    ,org.slf4j.impl">-->
