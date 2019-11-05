@@ -4,9 +4,8 @@ language: java
 jdk:
   - openjdk13
 
-install_script: 
+install: skip
 
-script: 
-  - ./mvnw clean validate
+script: ./mvnw clean validate
 
 
