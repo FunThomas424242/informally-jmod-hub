@@ -4,7 +4,8 @@ language: java
 jdk:
   - openjdk13
 
-install_script: 
+install_script:
+  - echo "none app to install"
 
 script: 
   - ./mvnw clean validate
