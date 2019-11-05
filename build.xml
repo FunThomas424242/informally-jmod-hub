@@ -23,21 +23,15 @@
     </target>
 
     <target name="org.json" depends="jdeps.clean">
-        <property name="org.json.group.id" value="org/json"/>
-        <property name="artifact.id" value="json"/>
-        <property name="module.id" value="org.json"/>
-        <property name="version" value="20190722"/>
-
-<!--        <exec executable="${jdeps}">-->
-<!--            <arg value="&#45;&#45;generate-open-module"/>-->
-<!--            <arg value="./jdeps"/>-->
-<!--            <arg value="${user.home}/.m2/repository/${org.json.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>-->
-<!--        </exec>-->
+        <ac:var name="group.id" value="org/json"/>
+        <ac:var name="artifact.id" value="json"/>
+        <ac:var name="module.id" value="org.json"/>
+        <ac:var name="version" value="20190722"/>
 
         <exec executable="${jdeps}">
             <arg value="--generate-module-info"/>
             <arg value="./jdeps"/>
-            <arg value="${user.home}/.m2/repository/${org.json.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
+            <arg value="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"/>
         </exec>
 
         <loadfile property="org.json.context" srcFile="./jdeps/${module.id}/module-info.java"/>
@@ -45,7 +39,7 @@
             ${org.json.context}
         </echo>
 
-        <unzip src="${user.home}/.m2/repository/${org.json.group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
+        <unzip src="${user.home}/.m2/repository/${group.id}/${artifact.id}/${version}/${artifact.id}-${version}.jar"
                dest="./jdeps/${module.id}/classes">
         </unzip>
 
