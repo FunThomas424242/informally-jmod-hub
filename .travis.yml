@@ -6,8 +6,6 @@ jdk:
 
 install: skip
 
-before_script: env
-
 script: ./mvnw clean validate
 
 

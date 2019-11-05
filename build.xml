@@ -20,6 +20,9 @@
 
     <target name="jdeps.clean">
         <delete dir="jdeps"/>
+        <delete dir="jmods" />
+        <mkdir dir="jdeps"/>
+        <mkdir dir="jmods"/>
     </target>
 
     <target name="org.json" depends="jdeps.clean">
